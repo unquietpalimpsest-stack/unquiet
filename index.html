@@ -4,30 +4,57 @@
   <meta charset="UTF-8">
   <title>Unquiet</title>
   <style>
+    /* Basic page styling */
     body {
-      background: #000;
+      margin: 0;
+      padding: 0;
+      background-color: #000;
       color: #fff;
-      font-family: sans-serif;
+      font-family: 'Helvetica', 'Arial', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       text-align: center;
       padding: 2rem;
-      line-height: 1.5;
+      line-height: 1.6;
+    }
+
+    /* Container for content */
+    .container {
+      max-width: 800px;
+      animation: fadeIn 2s ease forwards;
+      opacity: 0;
+    }
+
+    /* Subheading */
+    h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      letter-spacing: 1px;
+    }
+
+    /* Paragraph */
+    p {
+      font-size: 1.2rem;
+    }
+
+    /* Fade-in animation */
+    @keyframes fadeIn {
+      to { opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <p>
-    nothing we write lasts. that's the point.<br>
-    they can scrub the walls clean, but the questions stay.<br><br>
-    who decides which lives are sacred?<br>
-    has morality stopped trending?<br>
-    when did obedience become a virtue?<br>
-    how many names fit beneath the word 'collateral'?<br><br>
-    what is truth worth when silence is rewarded?<br>
-    what would history say about you?
-  </p>
+  <div class="container">
+    <h1>SILENCE HAS NEVER BEEN NEUTRAL</h1>
+    <p>
+      nothing we write lasts. that's the point. they can scrub the words off, but the questions remain:  
+      who decides which lives are sacred? when did obedience become a virtue? how many names fit beneath the word 'collateral'?  
+      has morality stopped trending? what is truth worth when silence is rewarded? what would history say about you?
+    </p>
+  </div>
 </body>
 </html>
+
