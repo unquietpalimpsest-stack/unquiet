@@ -7,7 +7,7 @@
     body {
       margin: 0;
       padding: 0;
-      background-color: #000;
+      background: #000;
       color: #fff;
       font-family: 'Helvetica', 'Arial', sans-serif;
       display: flex;
@@ -16,56 +16,99 @@
       min-height: 100vh;
       text-align: center;
       padding: 2rem;
-      line-height: 1.6;
+      overflow: hidden;
     }
 
     .container {
       max-width: 800px;
+      position: relative;
     }
 
     h1 {
       font-size: 2rem;
       font-weight: bold;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
       letter-spacing: 1px;
+      text-shadow: 1px 1px 2px #fff;
     }
 
-    p {
+    .line {
       font-size: 1.2rem;
+      margin: 0.5rem 0;
       opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-      margin-bottom: 1rem;
+      display: inline-block;
+      white-space: pre-wrap;
+      animation: chalkJitter 1s infinite;
     }
 
-    .visible {
-      opacity: 1 !important;
-      transform: translateY(0px) !important;
+    /* Chalk dust effect */
+    .dust {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      animation: float 4s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0,0); opacity:0.2; }
+      50% { transform: translate(50px,-100px); opacity:0.05; }
+      100% { transform: translate(0,-200px); opacity:0; }
+    }
+
+    @keyframes chalkJitter {
+      0% { transform: translateY(0) translateX(0); }
+      25% { transform: translateY(0) translateX(-1px); }
+      50% { transform: translateY(0) translateX(1px); }
+      75% { transform: translateY(0) translateX(-1px); }
+      100% { transform: translateY(0) translateX(0); }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>SILENCE HAS NEVER BEEN NEUTRAL</h1>
-    <p>nothing we write lasts. that's the point.</p>
-    <p>they can scrub the words off, but the questions remain:</p>
-    <p>who decides which lives are sacred?</p>
-    <p>when did obedience become a virtue?</p>
-    <p>how many names fit beneath the word 'collateral'?</p>
-    <p>has morality stopped trending?</p>
-    <p>what is truth worth when silence is rewarded?</p>
-    <p>what would history say about you?</p>
+    <div class="line" data-text="nothing we write lasts. that's the point."></div>
+    <div class="line" data-text="they can scrub the words off, but the questions remain:"></div>
+    <div class="line" data-text="who decides which lives are sacred?"></div>
+    <div class="line" data-text="when did obedience become a virtue?"></div>
+    <div class="line" data-text="how many names fit beneath the word 'collateral'?"></div>
+    <div class="line" data-text="has morality stopped trending?"></div>
+    <div class="line" data-text="what is truth worth when silence is rewarded?"></div>
+    <div class="line" data-text="what would history say about you?"></div>
   </div>
 
   <script>
-    const lines = document.querySelectorAll('p');
-    let delay = 500; // initial delay
-    lines.forEach((line, index) => {
+    const lines = document.querySelectorAll('.line');
+    let delay = 500;
+
+    lines.forEach((line) => {
+      const text = line.getAttribute('data-text');
+      line.style.opacity = 1;
       setTimeout(() => {
-        line.classList.add('visible');
+        let i = 0;
+        const interval = setInterval(() => {
+          line.textContent += text[i];
+          i++;
+          if(i >= text.length) clearInterval(interval);
+        }, 50); // 50ms per character
       }, delay);
-      delay += 1000; // 1 second between each line
+      delay += text.length * 50 + 800; // time for typing + extra pause
     });
+
+    // Floating dust
+    for(let i=0;i<60;i++){
+      const dust = document.createElement('div');
+      dust.classList.add('dust');
+      dust.style.left = Math.random()*window.innerWidth + 'px';
+      dust.style.top = Math.random()*window.innerHeight + 'px';
+      dust.style.width = Math.random()*2 + 1 + 'px';
+      dust.style.height = dust.style.width;
+      dust.style.animationDuration = 3 + Math.random()*3 + 's';
+      document.body.appendChild(dust);
+    }
   </script>
 </body>
 </html>
+
