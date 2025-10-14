@@ -4,24 +4,26 @@
   <meta charset="UTF-8">
   <title>Unquiet</title>
   <style>
+    /* ===== BODY LAYOUT ===== */
     body {
+      display: flex;
+      flex-direction: column;        /* stack container + footer vertically */
+      justify-content: space-between; /* pushes footer to bottom */
+      min-height: 100vh;
       margin: 0;
-      padding: 0;
+      padding: 2rem;
       background: #000;
       color: #fff;
       font-family: 'Helvetica', 'Arial', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
       text-align: center;
-      padding: 2rem;
       overflow: hidden;
     }
 
+    /* ===== MAIN CONTENT ===== */
     .container {
       max-width: 800px;
       position: relative;
+      margin-top: 2rem;
     }
 
     h1 {
@@ -64,6 +66,52 @@
       75% { transform: translateY(0) translateX(-1px); }
       100% { transform: translateY(0) translateX(0); }
     }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background:#000;
+      color:#fff;
+      border-top:1px solid rgba(255,255,255,0.06);
+      padding:24px 16px;
+      text-align:center;
+      font-family: 'Helvetica', Arial, sans-serif;
+      position:relative;
+    }
+
+    footer a {
+      background:transparent;
+      color:#fff;
+      border:1px solid rgba(255,255,255,0.12);
+      padding:10px 14px;
+      text-decoration:none;
+      font-weight:600;
+      border-radius:6px;
+      transition:all .18s ease;
+    }
+
+    /* Hover glow on buttons */
+    footer a:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.3);
+      box-shadow: 0 6px 18px rgba(255,255,255,0.06), 0 0 8px rgba(255,255,255,0.15);
+    }
+
+    /* Pulse effect for moral line */
+    @keyframes pulse {
+      0% { opacity: 0.85; }
+      50% { opacity: 0.95; }
+      100% { opacity: 0.85; }
+    }
+
+    footer p span {
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width:480px){
+      footer div[style*="display:inline-flex"] { gap:8px; }
+      footer a { padding:9px 12px; font-size:14px; }
+    }
   </style>
 </head>
 <body>
@@ -80,9 +128,9 @@
   </div>
 
   <script>
+    // Typing animation for questions
     const lines = document.querySelectorAll('.line');
     let delay = 500;
-
     lines.forEach((line) => {
       const text = line.getAttribute('data-text');
       line.style.opacity = 1;
@@ -92,12 +140,12 @@
           line.textContent += text[i];
           i++;
           if(i >= text.length) clearInterval(interval);
-        }, 50); // 50ms per character
+        }, 50);
       }, delay);
-      delay += text.length * 50 + 800; // time for typing + extra pause
+      delay += text.length * 50 + 800;
     });
 
-    // Floating dust
+    // Floating dust in main container
     for(let i=0;i<60;i++){
       const dust = document.createElement('div');
       dust.classList.add('dust');
@@ -108,51 +156,40 @@
       dust.style.animationDuration = 3 + Math.random()*3 + 's';
       document.body.appendChild(dust);
     }
+
+    // Floating dust near footer links
+    const footerDiv = document.querySelector('footer div');
+    for(let i=0;i<10;i++){
+      const dust = document.createElement('div');
+      dust.classList.add('dust');
+      dust.style.left = (footerDiv.offsetLeft + Math.random() * footerDiv.offsetWidth) + 'px';
+      dust.style.top = (footerDiv.offsetTop + Math.random() * 20) + 'px';
+      dust.style.width = dust.style.height = (Math.random()*2 + 1) + 'px';
+      dust.style.animationDuration = 2 + Math.random()*2 + 's';
+      document.body.appendChild(dust);
+    }
   </script>
+
   <!-- ===== Unquiet: Charity / Action Bar ===== -->
-<footer style="background:#000; color:#fff; border-top:1px solid rgba(255,255,255,0.06); padding:24px 16px; text-align:center; font-family: 'Helvetica', Arial, sans-serif;">
-  <div style="max-width:900px; margin:0 auto;">
-    <p style="margin:0 0 12px; font-weight:600; letter-spacing:0.6px;">
-      <span style="display:block; font-size:14px; opacity:0.85;">
-        if silence is complicity, <strong>generosity is resistance.</strong>
-      </span>
-    </p>
+  <footer>
+    <div style="max-width:900px; margin:0 auto; position:relative;">
+      <!-- Pulsing moral line -->
+      <p style="margin:0 0 12px; font-weight:600; letter-spacing:0.6px;">
+        <span style="display:block; font-size:14px; opacity:0.85;">
+          if silence is complicity, <strong>generosity is resistance.</strong>
+        </span>
+      </p>
 
-    <div style="display:inline-flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-bottom:12px;">
-      <!-- Replace href values with the actual links you want -->
-      <a href="https://chuffed.org/project/help-us-deliver-vital-aid-to-gaza-families-in-need" target="_blank" rel="noopener noreferrer"
-         style="background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.12); padding:10px 14px; text-decoration:none; font-weight:600; border-radius:6px; transition:all .18s ease;">
-        Palestine → donate
-      </a>
+      <!-- Charity buttons -->
+      <div style="display:inline-flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-bottom:12px;">
+        <a href="https://chuffed.org/project/help-us-deliver-vital-aid-to-gaza-families-in-need" target="_blank" rel="noopener noreferrer">Palestine → donate</a>
+        <a href="https://uhrp.org/donate/" target="_blank" rel="noopener noreferrer">Uyghurs → donate</a>
+        <a href="https://support.savethechildren.org/site/Donation2?idb=83068127&df_id=2521&mfc_pref=T&2521.donation=form1&2521_donation=form1" target="_blank" rel="noopener noreferrer">Yemen → donate</a>
+      </div>
 
-      <a href="https://uhrp.org/donate/" target="_blank" rel="noopener noreferrer"
-         style="background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.12); padding:10px 14px; text-decoration:none; font-weight:600; border-radius:6px; transition:all .18s ease;">
-        Uyghurs → donate
-      </a>
-
-      <a href="https://support.savethechildren.org/site/Donation2?idb=83068127&df_id=2521&mfc_pref=T&2521.donation=form1&2521_donation=form1" target="_blank" rel="noopener noreferrer"
-         style="background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.12); padding:10px 14px; text-decoration:none; font-weight:600; border-radius:6px; transition:all .18s ease;">
-        Yemen → donate
-      </a>
-
+      <p style="margin:12px 0 0; font-size:12px; opacity:0.6;">
+      </p>
     </div>
-
-    <p style="margin:12px 0 0; font-size:12px; opacity:0.6;">
-    </p>
-  </div>
-</footer>
-
-<style>
-  footer a:hover {
-    transform: translateY(-3px);
-    border-color: rgba(255,255,255,0.28);
-    box-shadow: 0 6px 18px rgba(255,255,255,0.03);
-  }
-  @media (max-width:480px){
-    footer div[style*="display:inline-flex"] { gap:8px; }
-    footer a { padding:9px 12px; font-size:14px; }
-  }
-</style>
+  </footer>
 </body>
 </html>
-
