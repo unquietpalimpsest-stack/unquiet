@@ -2,45 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Unquiet</title>
   <style>
-    /* ===== BODY LAYOUT ===== */
+    /* ===== BASE LAYOUT ===== */
     body {
       display: flex;
-      flex-direction: column;        /* stack container + footer vertically */
-      justify-content: space-between; /* pushes footer to bottom */
+      flex-direction: column;
       min-height: 100vh;
       margin: 0;
-      padding: 2rem;
-      background: #000;
+      padding: 2rem 1.2rem;
+      background: radial-gradient(circle at 50% 20%, #0a0a0a 0%, #000 100%);
       color: #fff;
-      font-family: 'Helvetica', 'Arial', sans-serif;
+      font-family: 'Helvetica Neue', 'Arial', sans-serif;
       text-align: center;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
 
-    /* ===== MAIN CONTENT ===== */
     .container {
       max-width: 800px;
+      margin: 0 auto 3.5rem;
       position: relative;
-      margin-top: 2rem;
     }
 
     h1 {
-      font-size: 2rem;
-      font-weight: bold;
-      margin-bottom: 1.5rem;
-      letter-spacing: 1px;
-      text-shadow: 1px 1px 2px #fff;
+      font-size: clamp(1.7rem, 4.5vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      text-shadow: 0 0 8px rgba(255,255,255,0.2);
+      margin-bottom: 2rem;
     }
 
     .line {
-      font-size: 1.2rem;
+      font-size: clamp(1rem, 3.8vw, 1.25rem);
       margin: 0.5rem 0;
       opacity: 0;
       display: inline-block;
       white-space: pre-wrap;
       animation: chalkJitter 1s infinite;
+      text-shadow: 0 0 4px rgba(255,255,255,0.15);
     }
 
     /* Chalk dust effect */
@@ -48,69 +50,118 @@
       position: absolute;
       width: 3px;
       height: 3px;
-      background: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.25);
       border-radius: 50%;
-      animation: float 4s linear infinite;
+      animation: float 5s linear infinite;
+      pointer-events: none;
     }
 
     @keyframes float {
-      0% { transform: translate(0,0); opacity:0.2; }
-      50% { transform: translate(50px,-100px); opacity:0.05; }
-      100% { transform: translate(0,-200px); opacity:0; }
+      0% { transform: translate(0,0); opacity:0.3; }
+      50% { transform: translate(40px,-100px); opacity:0.1; }
+      100% { transform: translate(-20px,-200px); opacity:0; }
     }
 
     @keyframes chalkJitter {
-      0% { transform: translateY(0) translateX(0); }
-      25% { transform: translateY(0) translateX(-1px); }
-      50% { transform: translateY(0) translateX(1px); }
-      75% { transform: translateY(0) translateX(-1px); }
-      100% { transform: translateY(0) translateX(0); }
+      0%,100% { transform: translate(0); }
+      25% { transform: translateX(-1px); }
+      50% { transform: translateX(1px); }
+      75% { transform: translateX(-1px); }
     }
 
-    /* ===== FOOTER ===== */
+    /* ===== FOOTER / CHARITY SECTION ===== */
     footer {
-      background:#000;
-      color:#fff;
-      border-top:1px solid rgba(255,255,255,0.06);
-      padding:24px 16px;
-      text-align:center;
-      font-family: 'Helvetica', Arial, sans-serif;
-      position:relative;
-    }
-
-    footer a {
-      background:transparent;
-      color:#fff;
-      border:1px solid rgba(255,255,255,0.12);
-      padding:10px 14px;
-      text-decoration:none;
-      font-weight:600;
-      border-radius:6px;
-      transition:all .18s ease;
-    }
-
-    /* Hover glow on buttons */
-    footer a:hover {
-      transform: translateY(-2px);
-      border-color: rgba(255,255,255,0.3);
-      box-shadow: 0 6px 18px rgba(255,255,255,0.06), 0 0 8px rgba(255,255,255,0.15);
-    }
-
-    /* Pulse effect for moral line */
-    @keyframes pulse {
-      0% { opacity: 0.85; }
-      50% { opacity: 0.95; }
-      100% { opacity: 0.85; }
+      background: #000;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 28px 16px 60px;
+      color: #fff;
+      position: relative;
+      z-index: 10;
     }
 
     footer p span {
-      animation: pulse 3s ease-in-out infinite;
+      display: block;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.7px;
+      opacity: 0.9;
+      animation: pulse 3.5s ease-in-out infinite;
     }
 
-    /* Mobile adjustments */
-    @media (max-width:480px){
-      footer div[style*="display:inline-flex"] { gap:8px; }
-      footer a { padding:9px 12px; font-size:14px; }
+    @keyframes pulse {
+      0%,100% { opacity: 0.85; }
+      50% { opacity: 1; }
+    }
+
+    /* ===== DONATION LINKS ===== */
+    .donation-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .donation-links a {
+      position: relative;
+      background: rgba(255,255,255,0.02);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 12px 16px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 0.3px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 12px rgba(255,255,255,0.05);
+      overflow: hidden;
+    }
+
+    .donation-links a::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.25), transparent 70%);
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 0.4s ease;
+    }
+
+    .donation-links a:hover::before {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    .donation-links a:hover {
+      border-color: rgba(255,255,255,0.3);
+      box-shadow: 0 0 25px rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+      color: #fff;
+    }
+
+    .donation-links a span {
+      display: block;
+      font-size: 0.8rem;
+      opacity: 0.7;
+      font-weight: normal;
+      margin-top: 2px;
+    }
+
+    /* Subtle shimmer animation */
+    @keyframes shimmer {
+      0% { background-position: -200px 0; }
+      100% { background-position: 200px 0; }
+    }
+
+    /* MOBILE REFINEMENT */
+    @media (max-width:480px) {
+      body { padding: 1.5rem 1rem; }
+      .donation-links a {
+        flex: 1 1 100%;
+        font-size: 14px;
+        padding: 10px 12px;
+      }
     }
   </style>
 </head>
@@ -127,8 +178,26 @@
     <div class="line" data-text="what would history say about you?"></div>
   </div>
 
+  <footer>
+    <p><span>if silence is complicity, <strong>generosity is resistance.</strong></span></p>
+    <div class="donation-links">
+      <a href="https://chuffed.org/project/help-us-deliver-vital-aid-to-gaza-families-in-need" target="_blank">
+        Palestine → donate
+        <span>feed families under siege</span>
+      </a>
+      <a href="https://uhrp.org/donate/" target="_blank">
+        Uyghurs → donate
+        <span>protect faith from erasure</span>
+      </a>
+      <a href="https://support.savethechildren.org/site/Donation2?idb=83068127&df_id=2521&mfc_pref=T&2521.donation=form1&2521_donation=form1" target="_blank">
+        Yemen → donate
+        <span>help children survive famine</span>
+      </a>
+    </div>
+  </footer>
+
   <script>
-    // Typing animation for questions
+    // Typing animation
     const lines = document.querySelectorAll('.line');
     let delay = 500;
     lines.forEach((line) => {
@@ -139,57 +208,22 @@
         const interval = setInterval(() => {
           line.textContent += text[i];
           i++;
-          if(i >= text.length) clearInterval(interval);
+          if (i >= text.length) clearInterval(interval);
         }, 50);
       }, delay);
       delay += text.length * 50 + 800;
     });
 
-    // Floating dust in main container
-    for(let i=0;i<60;i++){
+    // Floating dust
+    for (let i = 0; i < 50; i++) {
       const dust = document.createElement('div');
       dust.classList.add('dust');
-      dust.style.left = Math.random()*window.innerWidth + 'px';
-      dust.style.top = Math.random()*window.innerHeight + 'px';
-      dust.style.width = Math.random()*2 + 1 + 'px';
-      dust.style.height = dust.style.width;
-      dust.style.animationDuration = 3 + Math.random()*3 + 's';
-      document.body.appendChild(dust);
-    }
-
-    // Floating dust near footer links
-    const footerDiv = document.querySelector('footer div');
-    for(let i=0;i<10;i++){
-      const dust = document.createElement('div');
-      dust.classList.add('dust');
-      dust.style.left = (footerDiv.offsetLeft + Math.random() * footerDiv.offsetWidth) + 'px';
-      dust.style.top = (footerDiv.offsetTop + Math.random() * 20) + 'px';
-      dust.style.width = dust.style.height = (Math.random()*2 + 1) + 'px';
-      dust.style.animationDuration = 2 + Math.random()*2 + 's';
+      dust.style.left = Math.random() * window.innerWidth + 'px';
+      dust.style.top = Math.random() * window.innerHeight + 'px';
+      dust.style.width = dust.style.height = (Math.random() * 2 + 1) + 'px';
+      dust.style.animationDuration = (3 + Math.random() * 3) + 's';
       document.body.appendChild(dust);
     }
   </script>
-
-  <!-- ===== Unquiet: Charity / Action Bar ===== -->
-  <footer>
-    <div style="max-width:900px; margin:0 auto; position:relative;">
-      <!-- Pulsing moral line -->
-      <p style="margin:0 0 12px; font-weight:600; letter-spacing:0.6px;">
-        <span style="display:block; font-size:14px; opacity:0.85;">
-          if silence is complicity, <strong>generosity is resistance.</strong>
-        </span>
-      </p>
-
-      <!-- Charity buttons -->
-      <div style="display:inline-flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-bottom:12px;">
-        <a href="https://chuffed.org/project/help-us-deliver-vital-aid-to-gaza-families-in-need" target="_blank" rel="noopener noreferrer">Palestine → donate</a>
-        <a href="https://uhrp.org/donate/" target="_blank" rel="noopener noreferrer">Uyghurs → donate</a>
-        <a href="https://support.savethechildren.org/site/Donation2?idb=83068127&df_id=2521&mfc_pref=T&2521.donation=form1&2521_donation=form1" target="_blank" rel="noopener noreferrer">Yemen → donate</a>
-      </div>
-
-      <p style="margin:12px 0 0; font-size:12px; opacity:0.6;">
-      </p>
-    </div>
-  </footer>
 </body>
 </html>
